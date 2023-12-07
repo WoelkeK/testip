@@ -1,0 +1,41 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+
+</head>
+<body>
+
+<div class="container">
+    <h2>Login Page</h2>
+    <form id="loginForm" th:action="@{/login}" th:method="post">
+        <div class="form-group">
+            <label for="ipAddress">Local IP Address:</label>
+            <input type="text" class="form-control" id="ipAddress" name="ipAddress" readonly="readonly">
+        </div>
+        <button type="button" class="btn btn-primary" onclick="getLocalIpAddress()">Get Local IP</button>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+</div>
+<script th:inline="javascript">
+
+    function getLocalIpAddress() {
+        fetch('/login', {
+            method: 'POST',
+        })
+            .then(response => response.text())
+            .then(ipAddress => {
+                document.getElementById('ipAddress').value = ipAddress;
+    console.log("getLocalIpAddress " + ipAddress);
+            })
+            .catch(error => {
+                console.error('Error getting local IP address:', error);
+            });
+    }
+
+</script>
+</body>
+</html>
